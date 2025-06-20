@@ -1,0 +1,13 @@
+{
+  "name": "Card Decks",
+  "id": "1517891692674372146",
+  "api": "1.0.0",
+  "editorType": ["figma", "figjam"],
+  "permissions": [],
+  "containsWidget": true,
+  "main": "dist/code.js",
+  "ui": "dist/index.html",
+  "widgetApi": "1.0.0",
+  "networkAccess": { "allowedDomains": ["none"] },
+  "documentAccess": "dynamic-page"
+}
