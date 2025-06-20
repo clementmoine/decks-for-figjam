@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus, Trash2, FileText, Download, Upload, Check } from "lucide-react";
@@ -268,11 +268,11 @@ function App() {
                           <label className="block text-xs font-medium text-gray-600 mb-1">
                             Valeur
                           </label>
-                          <input
-                            type="text"
+                          <textarea
+                            rows={2}
                             {...register(`cards.${i}.value`)}
                             placeholder="A, K, Q, J..."
-                            className="w-full px-3 py-2 rounded-md border border-gray-300 focus:ring-1 focus:ring-gray-500 focus:border-gray-500 text-sm"
+                            className="w-full px-3 py-2 rounded-md border border-gray-300 focus:ring-1 focus:ring-gray-500 focus:border-gray-500 transition-colors resize-none text-sm"
                           />
                         </div>
 
