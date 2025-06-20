@@ -350,7 +350,7 @@ function Card({
           <SVG
             width={width}
             height={48}
-            src={deck.logo?.length > 0 ? deck.logo : FIGMA_LOGO}
+            src={deck.logo && deck.logo.length > 0 ? deck.logo : FIGMA_LOGO}
           />
 
           {deck.showName && (
@@ -504,11 +504,9 @@ function Deck({
 }
 
 function shuffleDeck(deck: DeckType): DeckType {
-  const shuffledCards = deck.cards.sort(() => Math.random() - 0.5);
-  return {
-    ...deck,
-    cards: shuffledCards,
-  };
+  deck.cards = deck.cards.sort(() => Math.random() - 0.5);
+
+  return deck;
 }
 
 function Widget() {
@@ -522,8 +520,8 @@ function Widget() {
   const [isFlipped] = useSyncedState("isFlipped", true);
   const [card] = useSyncedState<CardType | undefined>("card", undefined);
 
-  const handleFlip = () => {
-    const widgetNode = figma.getNodeById(id) as WidgetNode;
+  const handleFlip = async () => {
+    const widgetNode = (await figma.getNodeByIdAsync(id)) as WidgetNode;
     if (!widgetNode || !card) return;
 
     const parent = widgetNode.parent;
@@ -544,25 +542,27 @@ function Widget() {
     figma.currentPage.selection = [flippedNode]; // sélectionne la carte
   };
 
-  const handleDraw = () => {
+  const handleDraw = async () => {
     if (currentDeck.cards.length === 0) {
       figma.notify("Aucune pioche disponible");
       return;
     }
-    const node = (figma.getNodeById(id) as WidgetNode).cloneWidget({
-      isDeck: false,
-      card: currentDeck.cards[0],
-    });
+    const node = ((await figma.getNodeByIdAsync(id)) as WidgetNode).cloneWidget(
+      {
+        isDeck: false,
+        card: currentDeck.cards[0],
+      }
+    );
 
     node.x += 280;
 
     setCurrentDeck((deck) => {
-      const cards = [...deck.cards];
+      const cards = deck.cards;
       cards.shift(); // Remove the first card
-      return {
-        ...deck,
-        cards: cards,
-      };
+
+      deck.cards = cards;
+
+      return deck;
     });
   };
 
