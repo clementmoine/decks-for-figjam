@@ -313,6 +313,10 @@ function Card({
       (deckLogoHeight ? parseInt(deckLogoHeight[1], 10) : 1)
     : 32;
 
+  const filteredCard = Object.fromEntries(
+    Object.entries(card).filter(([_, value]) => value !== "" && value !== null)
+  );
+
   return (
     <AutoLayout
       width={200}
@@ -361,7 +365,7 @@ function Card({
         </AutoLayout>
       ) : (
         <>
-          {card.value.length < 3 ? (
+          {filteredCard.value.length < 3 ? (
             <Text
               fontSize={32}
               fontWeight="bold"
@@ -376,7 +380,7 @@ function Card({
                 offset: 16,
               }}
             >
-              {card.value}
+              {filteredCard.value}
             </Text>
           ) : (
             deck.showName && (
@@ -399,30 +403,30 @@ function Card({
             )
           )}
 
-          {card.figure && (
+          {filteredCard.figure && (
             <SVG
               width={48}
               height={48}
-              src={card.figure}
+              src={filteredCard.figure}
               positioning="absolute"
               x={{ type: "center", offset: 0 }}
               y={{ type: "center", offset: 0 }}
             />
           )}
 
-          {card.value.length > 2 && (
+          {filteredCard.value.length > 2 && (
             <Text
               fontSize={14}
               width="fill-parent"
               horizontalAlignText="center"
             >
-              {card.value}
+              {filteredCard.value}
             </Text>
           )}
 
-          {card.value.length < 3 && (
+          {filteredCard.value.length < 3 && (
             <Text
-              fontSize={card.value.length < 3 ? 32 : 16}
+              fontSize={filteredCard.value.length < 3 ? 32 : 16}
               fontWeight="bold"
               positioning="absolute"
               x={{
@@ -434,7 +438,7 @@ function Card({
                 offset: 16,
               }}
             >
-              {card.value}
+              {filteredCard.value}
             </Text>
           )}
         </>
